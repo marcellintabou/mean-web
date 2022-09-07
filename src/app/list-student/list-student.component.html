@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-12 text-center">
+    <h2>Student list</h2>
+  </div>
+</div>
+<div class="row">
+  <table class="table">
+    <thead>
+      <th>First Name</th> <th>Last Name</th> <th>Email</th> <th>Action</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{student.firstName}}</td>
+        <td>{{student.lastName}}</td>
+        <td>{{student.email}}</td>
+        <td>
+          <a href="edit-student/{{student.id}}" class="btn btn-danger">EDIT</a> |
+          <button (click)="deleteStudent(student)" class="btn btn-success">DELETE</button>
+          <div ></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
