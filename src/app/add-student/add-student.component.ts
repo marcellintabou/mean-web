@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StudentsService } from '../students.service';
 
@@ -10,26 +10,29 @@ import { StudentsService } from '../students.service';
 })
 export class AddStudentComponent implements OnInit {
 
-  addStudent: any;
+  studentForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
     private route: Router,
     private studentService: StudentsService) { }
 
   ngOnInit(): void {
+    this.studentForm = this.fb.group({
+      firstName: this.fb.control(null, Validators.required),
+      lastName:  this.fb.control(null, Validators.required),
+      email:     this.fb.control(null, Validators.required),
+      password:  this.fb.control(null, Validators.required),
+    });
   }
 
   public onSubmit(){
-    this.addStudent = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-    this.studentService.addStudent(this.addStudent.value).subscribe((data: any) => {
+    console.log("clicked");
+
+    this.studentService.addStudent(this.studentForm.value).subscribe((data: any) => {
       console.log(data);
       this.route.navigate(['/list-students']);
     });
   }
+
 
 }

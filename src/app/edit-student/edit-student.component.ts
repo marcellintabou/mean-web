@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentsService } from '../students.service';
 
@@ -10,7 +10,7 @@ import { StudentsService } from '../students.service';
 })
 export class EditStudentComponent implements OnInit {
 
-  addStudent: any;
+  studentForm!: FormGroup;
   id: number = 0;
 
   constructor(private fb: FormBuilder,
@@ -19,20 +19,30 @@ export class EditStudentComponent implements OnInit {
     private url: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = +this.url.snapshot.params['id'];
+    this.studentForm = this.fb.group({
+      firstName: this.fb.control(null, Validators.required),
+      lastName:  this.fb.control(null, Validators.required),
+      email:     this.fb.control(null, Validators.required),
+      password:  this.fb.control(null, Validators.required),
+    });
+
+    this.id = this.url.snapshot.params['id'];
+
     this.studentService.getStudent(this.id).subscribe((data: any) => {
-      this.addStudent.patchValue(data);
+      console.log("IDDDDDDDDDDDDDDDD = ", data);
+      this.studentForm.patchValue(data);
+    /*  this.studentForm = this.fb.group({
+        firstName: this.fb.control(data.firstName, Validators.required),
+        lastName:  this.fb.control(data.lastName, Validators.required),
+        email:     this.fb.control(data.email, Validators.required),
+        password:  this.fb.control(data.password, Validators.required)
+      });*/
     });
   }
 
   public onSubmit(){
-    this.addStudent = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required]
-    });
-    this.studentService.updateStudent(this.addStudent.value).subscribe((data: any) => {
+
+    this.studentService.updateStudent(this.studentForm.value).subscribe((data: any) => {
       console.log(data);
       this.route.navigate(['/list-students']);
     });

@@ -8,25 +8,27 @@ import { StudentsService } from '../students.service';
   styleUrls: ['./list-student.component.css']
 })
 export class ListStudentComponent implements OnInit {
-  students: any;
+  students: any = [];
   constructor( private studentService: StudentsService,
                private router: Router) { }
 
   ngOnInit(): void {
+    this.loadStudent();
   }
 
   public loadStudent(){
     this.studentService.listStudent().subscribe((data: any) => {
       this.students = data;
+      console.log(this.students);
       this.router.navigate(['/list-students']);
     });
   }
 
   public deleteStudent(data:any){
-    this.studentService.deleteStudent(data.id).subscribe((data: any) => {
-      //this.students = data;
-      // this.router.navigate(['/list-students']);
-      this.students = this.students.filter((u:any) => u !== data);
+    console.log(data);
+    this.studentService.deleteStudent(data._id).subscribe((response: any) => { console.log(response.msg._id);
+      this.students = this.students.filter((u:any) => u._id !== response.msg._id);
+      console.log(this.students.length);
     });
   }
 }

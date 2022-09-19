@@ -14,9 +14,9 @@
         <td>{{student.lastName}}</td>
         <td>{{student.email}}</td>
         <td>
-          <a href="edit-student/{{student.id}}" class="btn btn-danger">EDIT</a> |
+          <a href="edit-student/{{student._id}}" class="btn btn-warning">EDIT</a> |
           <button (click)="deleteStudent(student)" class="btn btn-success">DELETE</button>
-          <div ></div>
+          <div></div>
         </td>
       </tr>
     </tbody>

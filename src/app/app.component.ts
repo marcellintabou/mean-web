@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'mean-web';
+
+  ngOnInit() {
+    console.log(this.title);
+  }
+
 }
